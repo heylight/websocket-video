@@ -6,7 +6,7 @@
     <title>录像</title>
   </head>
   <body>
-    <video width="500" height="500"></video>
+    <video width="320" height="320"></video>
   </body>
   <script src="https://cdn.socket.io/socket.io-3.0.5.min.js"></script>
   <script>
@@ -22,7 +22,7 @@
     }
     if (navigator.mediaDevices) {
       navigator.mediaDevices
-        .getUserMedia({ video: { width: 500, height: 500 } })
+        .getUserMedia({ video: { width: 200, height: 220 } })
         .then((mediaStream) => {
           video.srcObject = mediaStream;
           video.onloadedmetadata = function (e) {
