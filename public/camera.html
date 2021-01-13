@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>录像</title>
+  </head>
+  <body>
+    <video width="500" height="500"></video>
+  </body>
+  <script src="https://cdn.socket.io/socket.io-3.0.5.min.js"></script>
+  <script>
+    let socket = io();
+    let video = document.querySelector("video");
+    var canvas = document.createElement("canvas");
+    canvas.width = 320;
+    canvas.height = 320;
+    var context = canvas.getContext("2d");
+    function currentMsg() {
+      context.drawImage(video, 0, 0, 320, 320);
+      return canvas.toDataURL();
+    }
+    if (navigator.mediaDevices) {
+      navigator.mediaDevices
+        .getUserMedia({ video: { width: 500, height: 500 } })
+        .then((mediaStream) => {
+          video.srcObject = mediaStream;
+          video.onloadedmetadata = function (e) {
+            video.play();
+          };
+          socket.emit("fps", { type: "frame", data: currentMsg() });
+          socket.on("connect", function () {
+            console.log("connected!!");
+          });
+          socket.on("received", function (e) {
+            socket.emit("fps", { type: "frame", data: currentMsg() });
+          });
+          socket.on("disconnect", function () {});
+        });
+    }
+  </script>
+</html>

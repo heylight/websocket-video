@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>接收</title>
+  </head>
+  <body>
+    <img />
+  </body>
+  <script src="https://cdn.socket.io/socket.io-3.0.5.min.js"></script>
+  <script>
+    let socket = io();
+    let img = document.querySelector("img");
+    socket.on("connect", () => {
+      console.log("connected!!");
+    });
+    socket.on("transfer", (e) => {
+      img.src = e.data;
+    });
+    socket.on("disconnect", () => {});
+  </script>
+</html>
