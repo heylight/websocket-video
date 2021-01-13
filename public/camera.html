@@ -22,7 +22,7 @@
     }
     if (navigator.mediaDevices) {
       navigator.mediaDevices
-        .getUserMedia({ video: { width: 200, height: 220 } })
+        .getUserMedia({ video: { width: 100, height: 100 } })
         .then((mediaStream) => {
           video.srcObject = mediaStream;
           video.onloadedmetadata = function (e) {
