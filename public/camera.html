@@ -28,13 +28,15 @@
           video.onloadedmetadata = function (e) {
             video.play();
           };
-          socket.emit("fps", { type: "frame", data: currentMsg() });
+          setInterval(() => {
+            socket.emit("fps", { type: "frame", data: currentMsg() });
+          }, 33);
           socket.on("connect", function () {
             console.log("connected!!");
           });
-          socket.on("received", function (e) {
-            socket.emit("fps", { type: "frame", data: currentMsg() });
-          });
+          // socket.on("received", function (e) {
+          //   socket.emit("fps", { type: "frame", data: currentMsg() });
+          // });
           socket.on("disconnect", function () {});
         });
     }
