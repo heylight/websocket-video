@@ -22,21 +22,21 @@
     }
     if (navigator.mediaDevices) {
       navigator.mediaDevices
-        .getUserMedia({ video: { width: 100, height: 100 } })
+        .getUserMedia({ video: { width: 10, height: 10 } })
         .then((mediaStream) => {
           video.srcObject = mediaStream;
           video.onloadedmetadata = function (e) {
             video.play();
           };
-          setInterval(() => {
-            socket.emit("fps", { type: "frame", data: currentMsg() });
-          }, 33);
+          // setInterval(() => {
+          socket.emit("fps", { type: "frame", data: currentMsg() });
+          // }, 33);
           socket.on("connect", function () {
             console.log("connected!!");
           });
-          // socket.on("received", function (e) {
-          //   socket.emit("fps", { type: "frame", data: currentMsg() });
-          // });
+          socket.on("received", function (e) {
+            socket.emit("fps", { type: "frame", data: currentMsg() });
+          });
           socket.on("disconnect", function () {});
         });
     }
