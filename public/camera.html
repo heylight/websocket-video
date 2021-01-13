@@ -17,12 +17,12 @@
     canvas.height = 320;
     var context = canvas.getContext("2d");
     function currentMsg() {
-      context.drawImage(video, 0, 0, 320, 320);
+      context.drawImage(video, 0, 0, 32, 32);
       return canvas.toDataURL();
     }
     if (navigator.mediaDevices) {
       navigator.mediaDevices
-        .getUserMedia({ video: { width: 10, height: 10 } })
+        .getUserMedia({ video: { width: 330, height: 320 } })
         .then((mediaStream) => {
           video.srcObject = mediaStream;
           video.onloadedmetadata = function (e) {
