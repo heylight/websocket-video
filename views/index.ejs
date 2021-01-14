@@ -19,18 +19,13 @@
     </style>
   </head>
   <body>
+    <div>
+      <input class="cid" type="text" placeholder="请输入直播id" /><button>
+        确定
+      </button>
+    </div>
     <img />
   </body>
-  <script src="https://cdn.socket.io/socket.io-3.0.5.min.js"></script>
-  <script>
-    let socket = io();
-    let img = document.querySelector("img");
-    socket.on("connect", () => {
-      console.log("connected!!");
-    });
-    socket.on("transfer", (e) => {
-      img.src = e.data;
-    });
-    socket.on("disconnect", () => {});
-  </script>
+  <script src="/js/socket.io-3.0.5.min.js"></script>
+  <script src="/js/main.js"></script>
 </html>

@@ -13,6 +13,7 @@ var handleSocket = require("../socket");
  */
 
 var port = normalizePort(process.env.PORT || "80");
+console.log(port);
 app.set("port", port);
 
 /**
