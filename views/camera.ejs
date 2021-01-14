@@ -9,7 +9,7 @@
     <div>直播id：<span class="title"></span></div>
     <video width="320" height="320" autoplay></video>
   </body>
-  <script src="https://cdn.socket.io/socket.io-3.0.5.min.js"></script>
+  <script src="/js/socket.io-3.0.5.min.js"></script>
   <script>
     let socket = io();
     let video = document.querySelector("video");
@@ -17,29 +17,31 @@
     canvas.width = 320;
     canvas.height = 320;
     var context = canvas.getContext("2d");
-    let cameraId = Date.now();
-    document.querySelector(".title").innerText = cameraId;
+    let cameraId = 0;
 
-    function currentMsg() {
+    function base64() {
       context.drawImage(video, 0, 0, 320, 320);
-      return canvas.toDataURL("image/jpeg", 0.6);
+      return canvas.toDataURL("image/jpeg", 0.1);
     }
     if (navigator.mediaDevices) {
       navigator.mediaDevices
         .getUserMedia({ video: { width: 320, height: 320 } })
         .then((mediaStream) => {
           video.srcObject = mediaStream;
-          socket.on("connect", function () {
-            socket.to(cameraId).emit("create-camera", cameraId);
-            socket.to(cameraId).emit("fps", { cameraId, data: currentMsg() });
-            console.log("connected!!");
+
+          document.querySelector(".title").innerHTML = socket.id;
+          socket.emit("fps", base64());
+
+          socket.on("connect", function (e) {
+            console.log("connected!!", socket.id);
+            socket.emit("fps", base64());
           });
           socket.on("received", function (res) {
-            if (res.cameraId == cameraId) {
-              socket.to(cameraId).emit("fps", { cameraId, data: currentMsg() });
-            }
+            socket.emit("fps", base64());
           });
-          socket.on("disconnect", function () {});
+          socket.on("disconnect", function () {
+            console.log("disconnect");
+          });
         });
     }
   </script>

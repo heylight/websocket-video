@@ -4,28 +4,38 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>接收</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
-      body {
-        text-align: center;
-      }
-      img {
-        width: 500px;
-        max-width: 100vw;
-      }
-    </style>
   </head>
   <body>
     <div>
-      <input class="cid" type="text" placeholder="请输入直播id" /><button>
-        确定
-      </button>
+      <input
+        style="width: 260px"
+        class="cid"
+        type="text"
+        placeholder="请输入直播id"
+      /><button>确定</button> (<a target="_blank" href="/camera">查看id</a>)
     </div>
     <img />
   </body>
   <script src="/js/socket.io-3.0.5.min.js"></script>
-  <script src="/js/main.js"></script>
+  <script>
+    let img = document.querySelector("img");
+    let cid = document.querySelector(".cid");
+    let btn = document.querySelector("button");
+    btn.addEventListener("click", function () {
+      handle(cid.value);
+    });
+    function handle(cameraId) {
+      console.log("直播id", cameraId);
+      let socket = io({ query: { cameraId } });
+      socket.on("connect", () => {
+        console.log("connected!!");
+      });
+      socket.on("transfer", (base64) => {
+        img.src = base64;
+      });
+      socket.on("disconnect", () => {
+        console.log("disconnect");
+      });
+    }
+  </script>
 </html>

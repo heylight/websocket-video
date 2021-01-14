@@ -25,8 +25,7 @@ var server = http.createServer(app);
  *
  * socket.io
  */
-const io = require("socket.io")(server);
-io.on("connection", handleSocket.bind(io));
+handleSocket(server);
 /**
  * Listen on provided port, on all network interfaces.
  */
