@@ -14,15 +14,15 @@ module.exports = function handleSocket(server) {
           let msg = room.base64 || "";
           if (msg.length) {
             axios
-              .post("http://aicvpshop.jd.local/moutai_camera/", {
-                img_base64: msg.substr(23),
+              .post("https://shelf-product-recognize.jd.com", {
+                img_base64: room.base64,
                 user_id: room.roomId,
               })
               .then((res) => {
-                // console.log("res", room.roomId, res.data);
+                console.log("res", room.roomId, res.data);
               });
           }
-        }, 200),
+        }, 2000),
       };
       rooms.push(room);
     }
@@ -32,7 +32,7 @@ module.exports = function handleSocket(server) {
     socket.join(roomId);
     socket.on("fps", (base64) => {
       let currentRoom = rooms.find(getTaget) || {};
-      currentRoom.base64 = base64;
+      currentRoom.base64 = base64.substr(23);
       // 继续轮询
       io.in(roomId).emit("received");
       // 广播
