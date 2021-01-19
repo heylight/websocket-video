@@ -23,9 +23,31 @@
       context.drawImage(video, 0, 0, 550, 550);
       return canvas.toDataURL("image/jpeg", 0.6);
     }
+    function isMobile() {
+      var userAgentInfo = navigator.userAgent;
+      var mobileAgents = [
+        "Android",
+        "iPhone",
+        "SymbianOS",
+        "Windows Phone",
+        "iPad",
+        "iPod",
+      ];
+      var mobile_flag = false;
+      //根据userAgent判断是否是手机
+      for (var v = 0; v < mobileAgents.length; v++) {
+        if (userAgentInfo.indexOf(mobileAgents[v]) > 0) {
+          mobile_flag = true;
+          break;
+        }
+      }
+      return mobile_flag;
+    }
     if (navigator.mediaDevices) {
+      // 手机端默认启用后置摄像头
+      let facingMode = isMobile() ? { exact: "environment" } : "user";
       navigator.mediaDevices
-        .getUserMedia({ video: { width: 550, height: 550 } })
+        .getUserMedia({ video: { width: 550, height: 550, facingMode } })
         .then((mediaStream) => {
           video.srcObject = mediaStream;
 
@@ -42,6 +64,9 @@
           socket.on("disconnect", function () {
             console.log("disconnect");
           });
+        })
+        .catch(() => {
+          alert("出错了！");
         });
     }
   </script>
