@@ -11,15 +11,18 @@ module.exports = function handleSocket(server) {
         roomId,
         base64: "",
         timer: setInterval(() => {
-          axios
-            .post("http://aicvpshop.jd.local/moutai_camera/", {
-              img_base64: room.base64 || "",
-              user_id: room.roomId,
-            })
-            .then((res) => {
-              // console.log("res", room.roomId, res.data);
-            });
-        }, 200),
+          let msg = room.base64 || "";
+          if (msg.length) {
+            axios
+              .post("http://aicvpshop.jd.local/moutai_camera/", {
+                img_base64: msg.substr(23),
+                user_id: room.roomId,
+              })
+              .then((res) => {
+                // console.log("res", room.roomId, res.data);
+              });
+          }
+        }, 2000),
       };
       rooms.push(room);
     }
