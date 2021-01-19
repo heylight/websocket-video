@@ -17,7 +17,7 @@ module.exports = function handleSocket(server) {
               user_id: room.roomId,
             })
             .then((res) => {
-              console.log("res", room.roomId, res.data);
+              // console.log("res", room.roomId, res.data);
             });
         }, 2000),
       };
