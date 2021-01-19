@@ -19,7 +19,7 @@ module.exports = function handleSocket(server) {
             .then((res) => {
               // console.log("res", room.roomId, res.data);
             });
-        }, 2000),
+        }, 200),
       };
       rooms.push(room);
     }
