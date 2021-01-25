@@ -22,7 +22,7 @@ module.exports = function handleSocket(server) {
                 console.log("res", room.roomId, res.data);
               });
           }
-        }, 200),
+        }, 16),
       };
       rooms.push(room);
     }

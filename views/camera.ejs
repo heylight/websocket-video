@@ -7,10 +7,23 @@
   </head>
   <body>
     <div>直播id：<span class="title"></span></div>
+    <div><button>传送</button></div>
     <video width="550" height="550" autoplay></video>
   </body>
   <script src="/js/socket.io-3.0.5.min.js"></script>
   <script>
+    let isSending = false;
+    let btn = document.querySelector("button");
+    btn.addEventListener("click", function () {
+      if (isSending) {
+        btn.innerText = "传送";
+        isSending = false;
+      } else {
+        btn.innerText = "停止";
+        isSending = true;
+      }
+      console.log(isSending);
+    });
     let socket = io();
     let video = document.querySelector("video");
     var canvas = document.createElement("canvas");
@@ -21,7 +34,7 @@
 
     function base64() {
       context.drawImage(video, 0, 0, 550, 550);
-      return canvas.toDataURL("image/jpeg", 0.6);
+      return isSending ? canvas.toDataURL("image/jpeg", 0.6) : "";
     }
     function isMobile() {
       var userAgentInfo = navigator.userAgent;
